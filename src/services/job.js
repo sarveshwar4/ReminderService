@@ -4,7 +4,7 @@ const sender = require("../config/serviceConfig");
 const ticketservice = new TicketService();
 const setUpJob = () => {
   cron.schedule("*/10 * * * * *", async () => {
-    const response = await ticketservice.getNotificationTicket({
+    const response = await ticketservice.fetchPendingEmail({
       status: "PENDING",
     });
     response.forEach((email)=>{

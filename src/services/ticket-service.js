@@ -27,7 +27,7 @@ class TicketService{
        }
     }
     
-    async getNotificationTicket(data){
+    async fetchPendingEmail(data){
        try {
         const response = await this.repo.get(data);
         return response;
