@@ -1,9 +1,9 @@
 const cron = require("node-cron");
-const TicketService = require("./ticket-service");
+const TicketService = require("./email-service");
 const sender = require("../config/serviceConfig");
 const ticketservice = new TicketService();
 const setUpJob = () => {
-  cron.schedule("*/10 * * * * *", async () => {
+  cron.schedule("*/40 * * * * *", async () => {
     const response = await ticketservice.fetchPendingEmail({
       status: "PENDING",
     });

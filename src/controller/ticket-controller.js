@@ -1,4 +1,4 @@
-const TicketService = require('../services/ticket-service');
+const TicketService = require('../services/email-service');
 const ticketService = new TicketService();
 
 const create = async(req, res) =>{

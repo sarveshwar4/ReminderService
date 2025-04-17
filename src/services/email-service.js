@@ -3,8 +3,9 @@ const TicketRepository = require('../repository/ticketRepository.js');
 class TicketService{
     constructor(){
         this.repo = new TicketRepository();
+        this.SubscribeEvents = this.SubscribeEvents.bind(this);
     }
-    async sendBasicEmail(from, to, subject, body){
+    async sendBasicEmail({from, to, subject, body}){
         try {
             sender.sendMail({
                 from:from,
@@ -12,13 +13,12 @@ class TicketService{
                 subject:subject,
                 text:body
             });
-            console.log("Email Sent Successfully");
         } catch (error) {
             console.log("Error in sending email: ", error);
         }
     };
     
-    async create(data){
+    async createNotificationTicket(data){
        try {
         const response = await this.repo.create(data);
         return response;
@@ -27,7 +27,7 @@ class TicketService{
        }
     }
     
-    async fetchPendingEmail(data){
+    async fetchPendingEmails(data){
        try {
         const response = await this.repo.get(data);
         return response;
@@ -43,6 +43,22 @@ class TicketService{
             throw error;
         }
     }
+
+   async SubscribeEvents(payload){
+     const service = payload.service;
+     const data = payload.data;
+     switch(service){
+        case 'Ticket-Service':
+            await this.createNotificationTicket(data);
+            break;
+        case 'Send-Email-Service':
+            await this.sendBasicEmail(data);
+            break;
+        default:
+            console.log("Service is not present");
+            break;        
+     }
+   }
 }
 
 
